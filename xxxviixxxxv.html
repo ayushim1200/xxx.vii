@@ -3,42 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Birthday Tarot Cards</title>
+  <title>Birthday Tarot for Bestie</title>
   <style>
     body {
-      background-color: #f5f0ff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff7f0;
       text-align: center;
       padding: 20px;
     }
     h1 {
-      font-size: 2em;
-      margin-bottom: 10px;
+      color: #b86b77;
     }
-    p {
-      font-size: 1.1em;
+    .theme-buttons, .card-container {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
     }
-    .card-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 20px;
-      max-width: 900px;
-      margin: 30px auto;
+    .theme-buttons button {
+      padding: 10px 20px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background-color: #f3c9d6;
+      color: #5b2636;
+      transition: background 0.3s;
+    }
+    .theme-buttons button:hover {
+      background-color: #f59eb7;
     }
     .card {
       width: 150px;
       height: 220px;
       perspective: 1000px;
-      cursor: pointer;
     }
     .card-inner {
-      position: relative;
       width: 100%;
       height: 100%;
-      transition: transform 0.6s;
+      transition: transform 0.8s;
       transform-style: preserve-3d;
+      position: relative;
     }
-    .card.flipped .card-inner {
+    .flipped .card-inner {
       transform: rotateY(180deg);
     }
     .card-front, .card-back {
@@ -46,84 +54,79 @@
       width: 100%;
       height: 100%;
       backface-visibility: hidden;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      background-size: cover;
-      background-position: center;
+      border-radius: 12px;
+      overflow: hidden;
     }
     .card-front {
-      background-image: url("https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/front.png");
+      background-color: #f9e6ec;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .card-front img, .card-back img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     .card-back {
       transform: rotateY(180deg);
     }
-    .theme-title {
-      margin-top: 40px;
-      font-size: 1.5em;
-      color: #5a3d91;
-    }
   </style>
 </head>
 <body>
-  <h1>🎉 Birthday Tarot for You 🎉</h1>
-  <p>Pick one card from each theme and reveal what the universe holds 💫</p>
+  <h1>✨ Birthday Tarot for My Bestie ✨</h1>
+  <p>Choose a theme to reveal your card!</p>
 
-  <div id="cards" class="card-container">
-    <!-- Cards will be inserted here -->
+  <div class="theme-buttons">
+    <button onclick="showCards('love')">Love</button>
+    <button onclick="showCards('friendship')">Friendship</button>
+    <button onclick="showCards('magic')">Magic</button>
+    <button onclick="showCards('growth')">Growth</button>
   </div>
 
+  <div class="card-container" id="card-container"></div>
+
   <script>
-    const cardData = [
-      { theme: "Love", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/love1.png" },
-      { theme: "Love", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/love2.png" },
-      { theme: "Love", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/love3.png" },
-      { theme: "Love", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/love4.png" },
-      { theme: "Friendship", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/friend1.png" },
-      { theme: "Friendship", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/friend2.png" },
-      { theme: "Friendship", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/friend3.png" },
-      { theme: "Growth", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/growth1.png" },
-      { theme: "Growth", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/growth2.png" },
-      { theme: "Growth", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/growth3.png" },
-      { theme: "Magic", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/magic1.png" },
-      { theme: "Magic", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/magic2.png" },
-    ];
-
-    // Shuffle function
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+    const tarotDeck = {
+      love: {
+        front: "https://github.com/ayushim1200/xxx.vii/blob/fa27df7210c32f34898ed9195dbf296ce0cbce58/1.png",
+        cards: ["https://github.com/ayushim1200/xxx.vii/blob/fa27df7210c32f34898ed9195dbf296ce0cbce58/2.png", "https://github.com/ayushim1200/xxx.vii/blob/fa27df7210c32f34898ed9195dbf296ce0cbce58/3.png", "https://github.com/ayushim1200/xxx.vii/blob/fa27df7210c32f34898ed9195dbf296ce0cbce58/4.png", "https://github.com/ayushim1200/xxx.vii/blob/fa27df7210c32f34898ed9195dbf296ce0cbce58/5.png"]
+      },
+      friendship: {
+         front: "https://github.com/ayushim1200/xxx.vii/blob/fa27df7210c32f34898ed9195dbf296ce0cbce58/11.png",
+        cards: ["https://github.com/ayushim1200/xxx.vii/blob/fa27df7210c32f34898ed9195dbf296ce0cbce58/22.png", "https://github.com/ayushim1200/xxx.vii/blob/fa27df7210c32f34898ed9195dbf296ce0cbce58/33.png", "https://github.com/ayushim1200/xxx.vii/blob/fa27df7210c32f34898ed9195dbf296ce0cbce58/44.png"]
+      },
+      magic: {
+        front: "https://github.com/ayushim1200/xxx.vii/blob/fa27df7210c32f34898ed9195dbf296ce0cbce58/111.png",
+        cards: ["https://github.com/ayushim1200/xxx.vii/blob/fa27df7210c32f34898ed9195dbf296ce0cbce58/222.png", "https://github.com/ayushim1200/xxx.vii/blob/fa27df7210c32f34898ed9195dbf296ce0cbce58/333.png"]
+      },
+      growth: {
+        front: "front-growth.png",
+        cards: ["growth1.png", "growth2.png", "growth3.png"]
       }
-      return array;
-    }
+    };
 
-    const shuffledCards = shuffle([...cardData]);
-    const container = document.getElementById("cards");
+    function showCards(theme) {
+      const container = document.getElementById("card-container");
+      container.innerHTML = "";
 
-    shuffledCards.forEach((card, index) => {
-      const cardElement = document.createElement("div");
-      cardElement.classList.add("card");
-      cardElement.dataset.theme = card.theme;
-
-      cardElement.innerHTML = `
-        <div class="card-inner">
-          <div class="card-front"></div>
-          <div class="card-back" style="background-image: url('${card.back}')"></div>
-        </div>
-      `;
-
-      cardElement.addEventListener("click", () => {
-        // Only one card per theme can be flipped
-        const flippedInTheme = document.querySelector(`.card.flipped[data-theme="${card.theme}"]`);
-        if (!cardElement.classList.contains("flipped") && flippedInTheme) {
-          alert(`You've already chosen a ${card.theme} card!`);
-          return;
-        }
-        cardElement.classList.toggle("flipped");
+      const frontImage = tarotDeck[theme].front;
+      tarotDeck[theme].cards.forEach(cardImg => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="card-inner" onclick="this.parentElement.classList.toggle('flipped')">
+            <div class="card-front">
+              <img src="${frontImage}" alt="Tarot front">
+            </div>
+            <div class="card-back">
+              <img src="${cardImg}" alt="Tarot card">
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
       });
-
-      container.appendChild(cardElement);
-    });
+    }
   </script>
 </body>
 </html>
