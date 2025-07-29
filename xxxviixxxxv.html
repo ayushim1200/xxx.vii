@@ -2,173 +2,128 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Birthday Tarot for Bestie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Birthday Tarot Cards</title>
   <style>
     body {
+      background-color: #f5f0ff;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #2e1a47, #100e1e);
-      color: white;
       text-align: center;
       padding: 20px;
     }
     h1 {
-      font-size: 2.5rem;
+      font-size: 2em;
       margin-bottom: 10px;
     }
-    #instructions {
-      font-size: 1.1rem;
-      margin-bottom: 20px;
+    p {
+      font-size: 1.1em;
     }
-    .card-grid {
+    .card-container {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 20px;
-      max-width: 1000px;
-      margin: 0 auto;
+      max-width: 900px;
+      margin: 30px auto;
     }
     .card {
-      perspective: 1000px;
-    }
-    .card-inner {
       width: 150px;
       height: 220px;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
-      position: relative;
+      perspective: 1000px;
       cursor: pointer;
     }
-    .flipped {
-      transform: rotateY(180deg);
-    }
-    .card-face {
+    .card-inner {
+      position: relative;
       width: 100%;
       height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+    }
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
       position: absolute;
+      width: 100%;
+      height: 100%;
       backface-visibility: hidden;
-      border-radius: 12px;
-      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      background-size: cover;
+      background-position: center;
     }
     .card-front {
-      background: #ffffff;
+      background-image: url("https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/front.png");
     }
     .card-back {
       transform: rotateY(180deg);
-      background: #333;
     }
-    .card-face img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .shuffle-btn {
-      margin: 20px;
-      padding: 10px 20px;
-      background-color: #8a2be2;
-      border: none;
-      color: white;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .theme-label {
-      grid-column: span 4;
-      text-align: left;
-      margin-top: 30px;
-      font-weight: bold;
-      font-size: 1.2rem;
+    .theme-title {
+      margin-top: 40px;
+      font-size: 1.5em;
+      color: #5a3d91;
     }
   </style>
 </head>
 <body>
-  <h1>✨ Your Birthday Tarot ✨</h1>
-  <div id="instructions">Pick one card from each theme to reveal your year ahead 💫</div>
-  <button class="shuffle-btn" onclick="shuffleCards()">🔀 Shuffle</button>
+  <h1>🎉 Birthday Tarot for You 🎉</h1>
+  <p>Pick one card from each theme and reveal what the universe holds 💫</p>
 
-  <div class="card-grid" id="cardGrid">
-    <!-- JS will populate this -->
+  <div id="cards" class="card-container">
+    <!-- Cards will be inserted here -->
   </div>
 
   <script>
-    const themes = ["Love", "Friendship", "Growth", "Magic"];
-
-    // Replace these with URLs of your actual Canva tarot front and back images
     const cardData = [
-      // Love (4 cards)
-      { theme: "Love", front: "front.png", back: "love1.png" },
-      { theme: "Love", front: "front.png", back: "love2.png" },
-      { theme: "Love", front: "front.png", back: "love3.png" },
-      { theme: "Love", front: "front.png", back: "love4.png" },
-      // Friendship (3 cards)
-      { theme: "Friendship", front: "front.png", back: "friend1.png" },
-      { theme: "Friendship", front: "front.png", back: "friend2.png" },
-      { theme: "Friendship", front: "front.png", back: "friend3.png" },
-      // Growth (3 cards)
-      { theme: "Growth", front: "front.png", back: "growth1.png" },
-      { theme: "Growth", front: "front.png", back: "growth2.png" },
-      { theme: "Growth", front: "front.png", back: "growth3.png" },
-      // Magic (3 cards)
-      { theme: "Magic", front: "front.png", back: "magic1.png" },
-      { theme: "Magic", front: "front.png", back: "magic2.png" },
-      { theme: "Magic", front: "front.png", back: "magic3.png" },
+      { theme: "Love", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/love1.png" },
+      { theme: "Love", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/love2.png" },
+      { theme: "Love", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/love3.png" },
+      { theme: "Love", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/love4.png" },
+      { theme: "Friendship", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/friend1.png" },
+      { theme: "Friendship", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/friend2.png" },
+      { theme: "Friendship", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/friend3.png" },
+      { theme: "Growth", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/growth1.png" },
+      { theme: "Growth", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/growth2.png" },
+      { theme: "Growth", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/growth3.png" },
+      { theme: "Magic", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/magic1.png" },
+      { theme: "Magic", back: "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/magic2.png" },
     ];
 
-    const grid = document.getElementById("cardGrid");
-
-    function renderCards() {
-      grid.innerHTML = "";
-      themes.forEach((theme) => {
-        const themeLabel = document.createElement("div");
-        themeLabel.className = "theme-label";
-        themeLabel.textContent = `🌸 Theme: ${theme}`;
-        grid.appendChild(themeLabel);
-
-        const themeCards = cardData.filter((c) => c.theme === theme);
-        themeCards.forEach((card, index) => {
-          const cardDiv = document.createElement("div");
-          cardDiv.className = "card";
-
-          const inner = document.createElement("div");
-          inner.className = "card-inner";
-          inner.onclick = () => inner.classList.toggle("flipped");
-
-          const front = document.createElement("div");
-          front.className = "card-face card-front";
-          const frontImg = document.createElement("img");
-          frontImg.src = card.front;
-          front.appendChild(frontImg);
-
-          const back = document.createElement("div");
-          back.className = "card-face card-back";
-          const backImg = document.createElement("img");
-          backImg.src = card.back;
-          back.appendChild(backImg);
-
-          inner.appendChild(front);
-          inner.appendChild(back);
-          cardDiv.appendChild(inner);
-          grid.appendChild(cardDiv);
-        });
-      });
-    }
-
-    function shuffleCards() {
-      for (let t of themes) {
-        const cards = cardData.filter((c) => c.theme === t);
-        for (let i = cards.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [cards[i], cards[j]] = [cards[j], cards[i]];
-        }
-        cardData.splice(
-          cardData.findIndex((c) => c.theme === t),
-          cards.length,
-          ...cards
-        );
+    // Shuffle function
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
       }
-      renderCards();
+      return array;
     }
 
-    renderCards();
+    const shuffledCards = shuffle([...cardData]);
+    const container = document.getElementById("cards");
+
+    shuffledCards.forEach((card, index) => {
+      const cardElement = document.createElement("div");
+      cardElement.classList.add("card");
+      cardElement.dataset.theme = card.theme;
+
+      cardElement.innerHTML = `
+        <div class="card-inner">
+          <div class="card-front"></div>
+          <div class="card-back" style="background-image: url('${card.back}')"></div>
+        </div>
+      `;
+
+      cardElement.addEventListener("click", () => {
+        // Only one card per theme can be flipped
+        const flippedInTheme = document.querySelector(`.card.flipped[data-theme="${card.theme}"]`);
+        if (!cardElement.classList.contains("flipped") && flippedInTheme) {
+          alert(`You've already chosen a ${card.theme} card!`);
+          return;
+        }
+        cardElement.classList.toggle("flipped");
+      });
+
+      container.appendChild(cardElement);
+    });
   </script>
 </body>
 </html>
