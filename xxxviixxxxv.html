@@ -91,23 +91,23 @@
 
   <script>
     const themes = ["Love", "Friendship", "Growth", "Magic"];
-    const cardsPerTheme = 3;
 
     // Replace these with URLs of your actual Canva tarot front and back images
     const cardData = [
-      // Love
+      // Love (4 cards)
       { theme: "Love", front: "front.png", back: "love1.png" },
       { theme: "Love", front: "front.png", back: "love2.png" },
       { theme: "Love", front: "front.png", back: "love3.png" },
-      // Friendship
+      { theme: "Love", front: "front.png", back: "love4.png" },
+      // Friendship (3 cards)
       { theme: "Friendship", front: "front.png", back: "friend1.png" },
       { theme: "Friendship", front: "front.png", back: "friend2.png" },
       { theme: "Friendship", front: "front.png", back: "friend3.png" },
-      // Growth
+      // Growth (3 cards)
       { theme: "Growth", front: "front.png", back: "growth1.png" },
       { theme: "Growth", front: "front.png", back: "growth2.png" },
       { theme: "Growth", front: "front.png", back: "growth3.png" },
-      // Magic
+      // Magic (3 cards)
       { theme: "Magic", front: "front.png", back: "magic1.png" },
       { theme: "Magic", front: "front.png", back: "magic2.png" },
       { theme: "Magic", front: "front.png", back: "magic3.png" },
@@ -159,7 +159,6 @@
           const j = Math.floor(Math.random() * (i + 1));
           [cards[i], cards[j]] = [cards[j], cards[i]];
         }
-        // replace original array portion
         cardData.splice(
           cardData.findIndex((c) => c.theme === t),
           cards.length,
